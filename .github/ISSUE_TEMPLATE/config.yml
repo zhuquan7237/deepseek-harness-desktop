@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Open an issue on the source repo
+    url: https://github.com/zhuquan7237/zhuquan7237.github.io/issues
+    about: Installers, source, and bug reports live in zhuquan7237/zhuquan7237.github.io
