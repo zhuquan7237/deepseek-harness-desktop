@@ -16,12 +16,12 @@ Windows · Linux · macOS 开箱即用。引擎从 npm 安装官方 [`@deepseek-
 [主页 / 下载](https://dsh.zhuquan.xyz) ·
 [和其他桌面版](https://dsh.zhuquan.xyz/compare.html) ·
 [最新安装包](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/latest) ·
-[Windows](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.12/DeepSeek-0.1.12-win.exe) ·
-[Linux](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.12/DeepSeek-0.1.12-linux-x64.tar.gz) ·
-[macOS](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.12/DeepSeek-0.1.12-mac-arm64.dmg) ·
+[Windows](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.13/DeepSeek-0.1.13-win.exe) ·
+[Linux](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.13/DeepSeek-0.1.13-linux-x64.tar.gz) ·
+[macOS](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.13/DeepSeek-0.1.13-mac-arm64.dmg) ·
 [源码](https://github.com/zhuquan7237/zhuquan7237.github.io/tree/main/desktop)
 
-<img src="https://raw.githubusercontent.com/zhuquan7237/zhuquan7237.github.io/main/assets/desktop-preview.png" alt="DeepSeek Harness 桌面版 0.1.12：默认皮肤「深海女仆工坊」" width="920" />
+<img src="https://raw.githubusercontent.com/zhuquan7237/zhuquan7237.github.io/main/assets/desktop-preview.png" alt="DeepSeek Harness 桌面版 0.1.13：默认皮肤「深海女仆工坊」" width="920" />
 
 </div>
 
@@ -56,20 +56,20 @@ Windows · Linux · macOS 开箱即用。引擎从 npm 安装官方 [`@deepseek-
 
 | OS | File |
 | --- | --- |
-| Windows | [DeepSeek-0.1.12-win.exe](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.12/DeepSeek-0.1.12-win.exe) |
-| Linux x64 | [tar.gz](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.12/DeepSeek-0.1.12-linux-x64.tar.gz) · [deb](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.12/DeepSeek-0.1.12-linux-amd64.deb) |
-| macOS | [Apple Silicon dmg](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.12/DeepSeek-0.1.12-mac-arm64.dmg) · [Intel dmg](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.12/DeepSeek-0.1.12-mac-x64.dmg) |
+| Windows | [DeepSeek-0.1.13-win.exe](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.13/DeepSeek-0.1.13-win.exe) |
+| Linux x64 | [tar.gz](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.13/DeepSeek-0.1.13-linux-x64.tar.gz) · [deb](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.13/DeepSeek-0.1.13-linux-amd64.deb) |
+| macOS | [Apple Silicon dmg](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.13/DeepSeek-0.1.13-mac-arm64.dmg) · [Intel dmg](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.13/DeepSeek-0.1.13-mac-x64.dmg) |
 
 Latest: https://github.com/zhuquan7237/zhuquan7237.github.io/releases/latest  
 Homepage: https://dsh.zhuquan.xyz
 
-请用 **0.1.12**。不要用 0.1.0–0.1.11。
+请用 **0.1.13**。不要用 0.1.0–0.1.12。
 
 Linux:
 
 ```sh
-tar -xzf DeepSeek-0.1.12-linux-x64.tar.gz
-./DeepSeek-0.1.12-linux-x64/DeepSeek
+tar -xzf DeepSeek-0.1.13-linux-x64.tar.gz
+./DeepSeek-0.1.13-linux-x64/DeepSeek
 ```
 
 macOS 提示「已损坏」不是安装包坏了：把 App 拖到「应用程序」后，终端运行 `xattr -cr /Applications/DeepSeek.app`。说明：https://dsh.zhuquan.xyz/mac.html
@@ -85,13 +85,13 @@ macOS 提示「已损坏」不是安装包坏了：把 App 拖到「应用程序
 | 引擎 | 每次从 npm 装官方 `@deepseek-ai/dsh` | 仓库里那份拷贝 |
 | 系统 | Windows、Linux、macOS（Apple Silicon + Intel） | 常见只有 macOS Apple Silicon 和 Windows |
 | 默认皮肤 | 打进安装包 | 看各项目 |
-| 旧版 API Key | 0.1.12 尽量从旧目录接过来 | 看各项目 |
+| 旧版 API Key | 0.1.13 尽量从旧目录接过来 | 看各项目 |
 
 ## Skins
 
 打开软件后的宫殿大厅和双女仆，就是默认皮肤「深海女仆工坊」。**这套画面不是我画的。** 谢谢三位作者把这样完整的世界交出来。
 
-0.1.12 把默认皮肤打进安装包，并尽量继承旧版 API 密钥。对话窗口右上角鲸鱼按钮可快速换皮，也可从文件夹或 GitHub 地址导入。
+0.1.13 把默认皮肤打进安装包，并尽量继承旧版 API 密钥。对话窗口右上角鲸鱼按钮可快速换皮，也可从文件夹或 GitHub 地址导入。
 
 **默认皮肤**是 [Small-tailqwq/dsh-deep-whale](https://github.com/Small-tailqwq/dsh-deep-whale) 的「深海女仆工坊」，CC BY-NC-SA 4.0，**禁止商用**。署名链：一创 [上善](https://www.pixiv.net/users/62155430) → 二创 [ZipZipPipe](https://www.pixiv.net/users/18604994) → 三创 Small-tailqwq。完整致谢：https://dsh.zhuquan.xyz/#skin
 
