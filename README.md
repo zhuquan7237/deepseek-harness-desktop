@@ -16,12 +16,12 @@ Windows · Linux · macOS 开箱即用。引擎从 npm 安装官方 [`@deepseek-
 [主页 / 下载](https://dsh.zhuquan.xyz) ·
 [和其他桌面版](https://dsh.zhuquan.xyz/compare.html) ·
 [最新安装包](https://dsh.zhuquan.xyz/dl/) ·
-[Windows](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.16-win.exe) ·
-[Linux](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.16-linux-x64.tar.gz) ·
-[macOS](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.16-mac-arm64.dmg) ·
+[Windows](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.17-win.exe) ·
+[Linux](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.17-linux-x64.tar.gz) ·
+[macOS](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.17-mac-arm64.dmg) ·
 [源码](https://github.com/zhuquan7237/zhuquan7237.github.io/tree/main/desktop)
 
-<img src="https://raw.githubusercontent.com/zhuquan7237/zhuquan7237.github.io/main/assets/desktop-preview.png" alt="DeepSeek Harness 桌面版 0.1.16：默认皮肤「深海女仆工坊」" width="920" />
+<img src="https://raw.githubusercontent.com/zhuquan7237/zhuquan7237.github.io/main/assets/desktop-preview.png" alt="DeepSeek Harness 桌面版 0.1.17：默认皮肤「深海女仆工坊」" width="920" />
 
 </div>
 
@@ -31,7 +31,7 @@ Windows · Linux · macOS 开箱即用。引擎从 npm 安装官方 [`@deepseek-
   <tr>
     <td width="50%" valign="top">
       <h3>Desktop</h3>
-      <p>把官方 DeepSeek Harness 的本地 Web UI 带到原生窗口。自动准备 Node、启动 dsh、记住工作区。Windows / Linux / macOS（含 Intel Mac）都有安装包。</p>
+      <p>把官方 DeepSeek Harness 的本地 Web UI 带到原生窗口。自动准备 Node、启动 dsh、记住工作区。Windows / Linux / macOS（含 Intel Mac）都有安装包。0.1.17 的启动加载界面改成 Windows 11 Fluent 风格。</p>
     </td>
     <td width="50%" valign="top">
       <h3>官方引擎，不整仓拷贝</h3>
@@ -41,7 +41,7 @@ Windows · Linux · macOS 开箱即用。引擎从 npm 安装官方 [`@deepseek-
   <tr>
     <td width="50%" valign="top">
       <h3>皮肤中心</h3>
-      <p>默认「深海女仆工坊」已打进安装包，离线也能用，不用再从 GitHub 拉。0.1.13 升级后若皮肤消失，请改用 0.1.16。右上角鲸鱼按钮可换皮，也可从文件夹或 GitHub 地址导入。</p>
+      <p>默认「深海女仆工坊」已打进安装包，离线也能用，不用再从 GitHub 拉。0.1.13 升级后若皮肤消失，请改用 0.1.17。右上角鲸鱼按钮可换皮，也可从文件夹或 GitHub 地址导入。</p>
     </td>
     <td width="50%" valign="top">
       <h3>国内网络与旧配置</h3>
@@ -56,20 +56,20 @@ Windows · Linux · macOS 开箱即用。引擎从 npm 安装官方 [`@deepseek-
 
 | OS | File |
 | --- | --- |
-| Windows | [DeepSeek-0.1.16-win.exe](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.16-win.exe) |
-| Linux x64 | [tar.gz](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.16-linux-x64.tar.gz) · [deb](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.16-linux-amd64.deb) |
-| macOS | [Apple Silicon dmg](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.16-mac-arm64.dmg) · [Intel dmg](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.16-mac-x64.dmg) |
+| Windows | [DeepSeek-0.1.17-win.exe](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.17-win.exe) |
+| Linux x64 | [tar.gz](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.17-linux-x64.tar.gz) · [deb](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.17-linux-amd64.deb) |
+| macOS | [Apple Silicon dmg](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.17-mac-arm64.dmg) · [Intel dmg](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.17-mac-x64.dmg) |
 
 Latest: https://dsh.zhuquan.xyz/dl/  
 Homepage: https://dsh.zhuquan.xyz
 
-请用 **0.1.16**。不要用 0.1.0–0.1.15。
+请用 **0.1.17**。不要用 0.1.0–0.1.16。
 
 Linux:
 
 ```sh
-tar -xzf DeepSeek-0.1.16-linux-x64.tar.gz
-./DeepSeek-0.1.16-linux-x64/DeepSeek
+tar -xzf DeepSeek-0.1.17-linux-x64.tar.gz
+./DeepSeek-0.1.17-linux-x64/DeepSeek
 ```
 
 macOS 提示「已损坏」不是安装包坏了：把 App 拖到「应用程序」后，终端运行 `xattr -cr /Applications/DeepSeek.app`。说明：https://dsh.zhuquan.xyz/mac.html
