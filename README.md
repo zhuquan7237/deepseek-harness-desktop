@@ -13,15 +13,15 @@ Windows · Linux · macOS 开箱即用。引擎从 npm 安装官方 [`@deepseek-
 [![Platforms](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-4d6bfe)](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/latest)
 [![License](https://img.shields.io/badge/license-MIT-2EA44F)](LICENSE)
 
-[主页 / 下载](https://zhuquan7237.github.io) ·
-[和其他桌面版](https://zhuquan7237.github.io/compare.html) ·
+[主页 / 下载](https://dsh.zhuquan.xyz) ·
+[和其他桌面版](https://dsh.zhuquan.xyz/compare.html) ·
 [最新安装包](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/latest) ·
 [Windows](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.12/DeepSeek-0.1.12-win.exe) ·
 [Linux](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.12/DeepSeek-0.1.12-linux-x64.tar.gz) ·
 [macOS](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.12/DeepSeek-0.1.12-mac-arm64.dmg) ·
 [源码](https://github.com/zhuquan7237/zhuquan7237.github.io/tree/main/desktop)
 
-<img src="https://zhuquan7237.github.io/assets/desktop-preview.png" alt="DeepSeek Harness Desktop screenshot" width="920" />
+<img src="https://dsh.zhuquan.xyz/assets/desktop-preview.png" alt="DeepSeek Harness Desktop screenshot" width="920" />
 
 </div>
 
@@ -52,7 +52,7 @@ Windows · Linux · macOS 开箱即用。引擎从 npm 安装官方 [`@deepseek-
 
 ## Download
 
-安装包发在 Pages 仓库的 GitHub Releases。这个仓库是给 GitHub 搜索用的名字：**DeepSeek Harness Desktop**。请认准作者 **zhuquan7237**。
+安装包发在 Pages 仓库的 GitHub Releases。这个仓库是给 GitHub 搜索用的名字：**DeepSeek Harness Desktop**。请认准作者 **zhuquan7237**。产品主页：https://dsh.zhuquan.xyz
 
 | OS | File |
 | --- | --- |
@@ -61,7 +61,7 @@ Windows · Linux · macOS 开箱即用。引擎从 npm 安装官方 [`@deepseek-
 | macOS | [Apple Silicon dmg](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.12/DeepSeek-0.1.12-mac-arm64.dmg) · [Intel dmg](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.12/DeepSeek-0.1.12-mac-x64.dmg) |
 
 Latest: https://github.com/zhuquan7237/zhuquan7237.github.io/releases/latest  
-Homepage: https://zhuquan7237.github.io
+Homepage: https://dsh.zhuquan.xyz
 
 请用 **0.1.12**。不要用 0.1.0–0.1.11。
 
@@ -72,13 +72,13 @@ tar -xzf DeepSeek-0.1.12-linux-x64.tar.gz
 ./DeepSeek-0.1.12-linux-x64/DeepSeek
 ```
 
-macOS 提示「已损坏」不是安装包坏了：把 App 拖到「应用程序」后，终端运行 `xattr -cr /Applications/DeepSeek.app`。说明：https://zhuquan7237.github.io/mac.html
+macOS 提示「已损坏」不是安装包坏了：把 App 拖到「应用程序」后，终端运行 `xattr -cr /Applications/DeepSeek.app`。说明：https://dsh.zhuquan.xyz/mac.html
 
 首次启动需要联网大约 1–3 分钟（下载 Node 和官方 dsh）。默认皮肤已打进安装包，不用再从 GitHub 拉。API Key 在官方界面里填写，或打开 [platform.deepseek.com](https://platform.deepseek.com)。从旧桌面版升级时，会尽量把 `%AppData%\DeepSeek`（以及更早的 `深度求索` / `~/.dsh`）里的密钥和配置接过来。中文系统或中国时区会默认走国内 npm 镜像。
 
 ## 和其他社区桌面版怎么选
 
-搜「DeepSeek Harness Desktop」会看到好几个同名仓库。有的把官方源码整仓拷进自己的 GitHub，星标涨得快，但引擎更新要等他们再同步。这个项目只做薄壳。对照：https://zhuquan7237.github.io/compare.html
+搜「DeepSeek Harness Desktop」会看到好几个同名仓库。有的把官方源码整仓拷进自己的 GitHub，星标涨得快，但引擎更新要等他们再同步。这个项目只做薄壳。对照：https://dsh.zhuquan.xyz/compare.html
 
 | | 这个桌面版 | 整仓拷贝官方源码的桌面版 |
 | --- | --- | --- |
@@ -103,14 +103,14 @@ A thin **Electron desktop shell** around official DeepSeek Harness (`dsh` / `@de
 
 This is **not** a fork of [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness). Tools, plugins, Plan/Agent, and settings all come from the official engine. **Harness → 检查 Harness 更新** updates the engine without reinstalling the desktop app.
 
-Author: [Zhu Quan / 朱泉](https://zhuquan7237.github.io/me.html), Guangdong Ocean University (Materials Science).
+Author: [Zhu Quan / 朱泉](https://dsh.zhuquan.xyz/me.html), Guangdong Ocean University (Materials Science).
 
 ## Source and issues
 
 | What | Where |
 | --- | --- |
-| Product site | https://zhuquan7237.github.io |
-| Compare | https://zhuquan7237.github.io/compare.html |
+| Product site | https://dsh.zhuquan.xyz |
+| Compare | https://dsh.zhuquan.xyz/compare.html |
 | Installers / Releases | https://github.com/zhuquan7237/zhuquan7237.github.io/releases/latest |
 | Desktop source | https://github.com/zhuquan7237/zhuquan7237.github.io/tree/main/desktop |
 | Issues | https://github.com/zhuquan7237/zhuquan7237.github.io/issues |
