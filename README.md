@@ -15,13 +15,13 @@ Windows · Linux · macOS 开箱即用。引擎从 npm 安装官方 [`@deepseek-
 
 [主页 / 下载](https://dsh.zhuquan.xyz) ·
 [和其他桌面版](https://dsh.zhuquan.xyz/compare.html) ·
-[最新安装包](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/latest) ·
-[Windows](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.15/DeepSeek-0.1.15-win.exe) ·
-[Linux](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.15/DeepSeek-0.1.15-linux-x64.tar.gz) ·
-[macOS](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.15/DeepSeek-0.1.15-mac-arm64.dmg) ·
+[最新安装包](https://dsh.zhuquan.xyz/dl/) ·
+[Windows](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.16-win.exe) ·
+[Linux](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.16-linux-x64.tar.gz) ·
+[macOS](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.16-mac-arm64.dmg) ·
 [源码](https://github.com/zhuquan7237/zhuquan7237.github.io/tree/main/desktop)
 
-<img src="https://raw.githubusercontent.com/zhuquan7237/zhuquan7237.github.io/main/assets/desktop-preview.png" alt="DeepSeek Harness 桌面版 0.1.15：默认皮肤「深海女仆工坊」" width="920" />
+<img src="https://raw.githubusercontent.com/zhuquan7237/zhuquan7237.github.io/main/assets/desktop-preview.png" alt="DeepSeek Harness 桌面版 0.1.16：默认皮肤「深海女仆工坊」" width="920" />
 
 </div>
 
@@ -41,35 +41,35 @@ Windows · Linux · macOS 开箱即用。引擎从 npm 安装官方 [`@deepseek-
   <tr>
     <td width="50%" valign="top">
       <h3>皮肤中心</h3>
-      <p>默认「深海女仆工坊」已打进安装包，离线也能用，不用再从 GitHub 拉。0.1.13 升级后若皮肤消失，请改用 0.1.15。右上角鲸鱼按钮可换皮，也可从文件夹或 GitHub 地址导入。</p>
+      <p>默认「深海女仆工坊」已打进安装包，离线也能用，不用再从 GitHub 拉。0.1.13 升级后若皮肤消失，请改用 0.1.16。右上角鲸鱼按钮可换皮，也可从文件夹或 GitHub 地址导入。</p>
     </td>
     <td width="50%" valign="top">
       <h3>国内网络与旧配置</h3>
-      <p>中文系统或中国时区默认走国内 npm 镜像。从旧桌面版升级时，会尽量把 API 密钥和设置接过来。0.1.13 / 0.1.14 软件内「检查更新」进度会停在 0%，请用浏览器下载 0.1.15。</p>
+      <p>中文系统或中国时区默认走国内 npm 镜像。安装包从 <a href="https://dsh.zhuquan.xyz/dl/">dsh.zhuquan.xyz/dl/</a> 下载，软件内更新也优先走这条域名。</p>
     </td>
   </tr>
 </table>
 
 ## Download
 
-安装包发在 Pages 仓库的 GitHub Releases。这个仓库是给 GitHub 搜索用的名字：**DeepSeek Harness Desktop**。请认准作者 **zhuquan7237**。产品主页：https://dsh.zhuquan.xyz
+安装包优先从本域名下载：https://dsh.zhuquan.xyz/dl/ 。GitHub Release 是备用。这个仓库是给 GitHub 搜索用的名字：**DeepSeek Harness Desktop**。请认准作者 **zhuquan7237**。
 
 | OS | File |
 | --- | --- |
-| Windows | [DeepSeek-0.1.15-win.exe](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.15/DeepSeek-0.1.15-win.exe) |
-| Linux x64 | [tar.gz](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.15/DeepSeek-0.1.15-linux-x64.tar.gz) · [deb](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.15/DeepSeek-0.1.15-linux-amd64.deb) |
-| macOS | [Apple Silicon dmg](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.15/DeepSeek-0.1.15-mac-arm64.dmg) · [Intel dmg](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.15/DeepSeek-0.1.15-mac-x64.dmg) |
+| Windows | [DeepSeek-0.1.16-win.exe](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.16-win.exe) |
+| Linux x64 | [tar.gz](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.16-linux-x64.tar.gz) · [deb](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.16-linux-amd64.deb) |
+| macOS | [Apple Silicon dmg](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.16-mac-arm64.dmg) · [Intel dmg](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.16-mac-x64.dmg) |
 
-Latest: https://github.com/zhuquan7237/zhuquan7237.github.io/releases/latest  
+Latest: https://dsh.zhuquan.xyz/dl/  
 Homepage: https://dsh.zhuquan.xyz
 
-请用 **0.1.15**。不要用 0.1.0–0.1.14。
+请用 **0.1.16**。不要用 0.1.0–0.1.15。
 
 Linux:
 
 ```sh
-tar -xzf DeepSeek-0.1.15-linux-x64.tar.gz
-./DeepSeek-0.1.15-linux-x64/DeepSeek
+tar -xzf DeepSeek-0.1.16-linux-x64.tar.gz
+./DeepSeek-0.1.16-linux-x64/DeepSeek
 ```
 
 macOS 提示「已损坏」不是安装包坏了：把 App 拖到「应用程序」后，终端运行 `xattr -cr /Applications/DeepSeek.app`。说明：https://dsh.zhuquan.xyz/mac.html
@@ -85,13 +85,13 @@ macOS 提示「已损坏」不是安装包坏了：把 App 拖到「应用程序
 | 引擎 | 每次从 npm 装官方 `@deepseek-ai/dsh` | 仓库里那份拷贝 |
 | 系统 | Windows、Linux、macOS（Apple Silicon + Intel） | 常见只有 macOS Apple Silicon 和 Windows |
 | 默认皮肤 | 打进安装包 | 看各项目 |
-| 旧版 API Key | 0.1.15 尽量从旧目录接过来 | 看各项目 |
+| 旧版 API Key | 0.1.16 尽量从旧目录接过来 | 看各项目 |
 
 ## Skins
 
 打开软件后的宫殿大厅和双女仆，就是默认皮肤「深海女仆工坊」。**这套画面不是我画的。** 谢谢三位作者把这样完整的世界交出来。
 
-0.1.15 把默认皮肤从安装包的 asar.unpacked 复制出来，不再去 GitHub 拉。对话窗口右上角鲸鱼按钮可快速换皮，也可从文件夹或 GitHub 地址导入。
+0.1.16 把默认皮肤从安装包的 asar.unpacked 复制出来，不再去 GitHub 拉。对话窗口右上角鲸鱼按钮可快速换皮，也可从文件夹或 GitHub 地址导入。
 
 **默认皮肤**是 [Small-tailqwq/dsh-deep-whale](https://github.com/Small-tailqwq/dsh-deep-whale) 的「深海女仆工坊」，CC BY-NC-SA 4.0，**禁止商用**。署名链：一创 [上善](https://www.pixiv.net/users/62155430) → 二创 [ZipZipPipe](https://www.pixiv.net/users/18604994) → 三创 Small-tailqwq。完整致谢：https://dsh.zhuquan.xyz/#skin
 
@@ -112,6 +112,7 @@ Author: [Zhu Quan / 朱泉](https://dsh.zhuquan.xyz/me.html), Guangdong Ocean Un
 | What | Where |
 | --- | --- |
 | Product site | https://dsh.zhuquan.xyz |
+| Downloads | https://dsh.zhuquan.xyz/dl/ |
 | Compare | https://dsh.zhuquan.xyz/compare.html |
 | Installers / Releases | https://github.com/zhuquan7237/zhuquan7237.github.io/releases/latest |
 | Desktop source | https://github.com/zhuquan7237/zhuquan7237.github.io/tree/main/desktop |
