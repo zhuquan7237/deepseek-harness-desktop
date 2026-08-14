@@ -21,7 +21,7 @@ Windows · Linux · macOS 开箱即用。引擎从 npm 安装官方 [`@deepseek-
 [macOS](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.12/DeepSeek-0.1.12-mac-arm64.dmg) ·
 [源码](https://github.com/zhuquan7237/zhuquan7237.github.io/tree/main/desktop)
 
-<img src="https://dsh.zhuquan.xyz/assets/desktop-preview.png" alt="DeepSeek Harness 桌面版 0.1.12：默认皮肤「深海女仆工坊」" width="920" />
+<img src="https://raw.githubusercontent.com/zhuquan7237/zhuquan7237.github.io/main/assets/desktop-preview.png" alt="DeepSeek Harness 桌面版 0.1.12：默认皮肤「深海女仆工坊」" width="920" />
 
 </div>
 
