@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://zhuquan7237.github.io/assets/icon.png" width="72" alt="DeepSeek Harness Desktop" />
+<img src="https://raw.githubusercontent.com/zhuquan7237/zhuquan7237.github.io/main/assets/deepseek-whale.png" width="96" alt="DeepSeek" />
 
 # DeepSeek Harness Desktop
 
@@ -10,13 +10,13 @@
 
 [![Release](https://img.shields.io/github/v/release/zhuquan7237/zhuquan7237.github.io?include_prereleases&label=release)](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/latest)
 [![Downloads](https://img.shields.io/github/downloads/zhuquan7237/zhuquan7237.github.io/total)](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/latest)
-[![Platforms](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-4d93f8)](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/latest)
+[![Platforms](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-4d6bfe)](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/latest)
 
 [主页 / 下载](https://zhuquan7237.github.io) ·
 [最新安装包](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/latest) ·
-[Windows](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.4/DeepSeek-0.1.4-win.exe) ·
-[Linux tar.gz](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.4/DeepSeek-0.1.4-linux-x64.tar.gz) ·
-[macOS Apple Silicon](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.4/DeepSeek-0.1.4-mac-arm64.dmg) ·
+[Windows](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.9/DeepSeek-0.1.9-win.exe) ·
+[Linux tar.gz](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.9/DeepSeek-0.1.9-linux-x64.tar.gz) ·
+[macOS Apple Silicon](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.9/DeepSeek-0.1.9-mac-arm64.dmg) ·
 [源码](https://github.com/zhuquan7237/zhuquan7237.github.io/tree/main/desktop)
 
 <img src="https://zhuquan7237.github.io/assets/desktop-preview.png" alt="DeepSeek Harness Desktop screenshot" width="920" />
@@ -29,23 +29,23 @@
 
 | OS | File |
 | --- | --- |
-| Windows | [DeepSeek-0.1.4-win.exe](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.4/DeepSeek-0.1.4-win.exe) |
-| Linux x64 | [tar.gz](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.4/DeepSeek-0.1.4-linux-x64.tar.gz) · [deb](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.4/DeepSeek-0.1.4-linux-amd64.deb) |
-| macOS | [Apple Silicon dmg](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.4/DeepSeek-0.1.4-mac-arm64.dmg) · [Intel dmg](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.4/DeepSeek-0.1.4-mac-x64.dmg) |
+| Windows | [DeepSeek-0.1.9-win.exe](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.9/DeepSeek-0.1.9-win.exe) |
+| Linux x64 | [tar.gz](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.9/DeepSeek-0.1.9-linux-x64.tar.gz) · [deb](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.9/DeepSeek-0.1.9-linux-amd64.deb) |
+| macOS | [Apple Silicon dmg](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.9/DeepSeek-0.1.9-mac-arm64.dmg) · [Intel dmg](https://github.com/zhuquan7237/zhuquan7237.github.io/releases/download/desktop-v0.1.9/DeepSeek-0.1.9-mac-x64.dmg) |
 
 Latest: https://github.com/zhuquan7237/zhuquan7237.github.io/releases/latest  
 Homepage: https://zhuquan7237.github.io
 
-请用 **0.1.4**。不要用 0.1.0 / 0.1.1。
+请用 **0.1.9**。不要用 0.1.0–0.1.8。
 
 Linux:
 
 ```sh
-tar -xzf DeepSeek-0.1.4-linux-x64.tar.gz
-./DeepSeek-0.1.4-linux-x64/DeepSeek
+tar -xzf DeepSeek-0.1.9-linux-x64.tar.gz
+./DeepSeek-0.1.9-linux-x64/DeepSeek
 ```
 
-首次启动需要联网大约 1–3 分钟（下载 Node 和官方 dsh）。API Key 在官方界面里填写，或打开 [platform.deepseek.com](https://platform.deepseek.com)。中文系统会默认走国内 npm 镜像。
+首次启动需要联网大约 1–3 分钟（下载 Node 和官方 dsh）。API Key 在官方界面里填写，或打开 [platform.deepseek.com](https://platform.deepseek.com)。中文系统或中国时区会默认走国内 npm 镜像。
 
 ## What this is
 
