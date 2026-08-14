@@ -45,6 +45,8 @@ tar -xzf DeepSeek-0.1.12-linux-x64.tar.gz
 ./DeepSeek-0.1.12-linux-x64/DeepSeek
 ```
 
+macOS 提示「已损坏」不是安装包坏了：把 App 拖到「应用程序」后，终端运行 `xattr -cr /Applications/DeepSeek.app`。说明：https://zhuquan7237.github.io/mac.html
+
 首次启动需要联网大约 1–3 分钟（下载 Node 和官方 dsh）。默认皮肤已打进安装包，不用再从 GitHub 拉。API Key 在官方界面里填写，或打开 [platform.deepseek.com](https://platform.deepseek.com)。从旧桌面版升级时，会尽量把 `%AppData%\DeepSeek`（以及更早的 `深度求索` / `~/.dsh`）里的密钥和配置接过来。中文系统或中国时区会默认走国内 npm 镜像。
 
 ## Skins
