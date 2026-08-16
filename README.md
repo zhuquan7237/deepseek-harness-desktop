@@ -16,12 +16,12 @@ Windows · Linux · macOS 开箱即用。引擎从 npm 安装官方 [`@deepseek-
 [主页 / 下载](https://dsh.zhuquan.xyz) ·
 [和其他桌面版](https://dsh.zhuquan.xyz/compare.html) ·
 [最新安装包](https://dsh.zhuquan.xyz/dl/) ·
-[Windows](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.18-win.exe) ·
-[Linux](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.18-linux-x64.tar.gz) ·
-[macOS](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.18-mac-arm64.dmg) ·
+[Windows](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.19-win.exe) ·
+[Linux](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.19-linux-x64.tar.gz) ·
+[macOS](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.19-mac-arm64.dmg) ·
 [源码](https://github.com/zhuquan7237/zhuquan7237.github.io/tree/main/desktop)
 
-<img src="https://raw.githubusercontent.com/zhuquan7237/zhuquan7237.github.io/main/assets/desktop-preview.png" alt="DeepSeek Harness 桌面版 0.1.18：默认皮肤「深海女仆工坊」" width="920" />
+<img src="https://raw.githubusercontent.com/zhuquan7237/zhuquan7237.github.io/main/assets/desktop-preview.png" alt="DeepSeek Harness 桌面版 0.1.19：默认皮肤「深海女仆工坊」" width="920" />
 
 </div>
 
@@ -31,7 +31,7 @@ Windows · Linux · macOS 开箱即用。引擎从 npm 安装官方 [`@deepseek-
   <tr>
     <td width="50%" valign="top">
       <h3>Desktop</h3>
-      <p>把官方 DeepSeek Harness 的本地 Web UI 带到原生窗口。自动准备 Node、启动 dsh、记住工作区。Windows / Linux / macOS（含 Intel Mac）都有安装包。0.1.18 修好零配置 Linux 首次安装：不再依赖系统 xz，失败可重试并清掉半成品。</p>
+      <p>把官方 DeepSeek Harness 的本地 Web UI 带到原生窗口。自动准备 Node、启动 dsh、记住工作区。Windows / Linux / macOS（含 Intel Mac）都有安装包。0.1.19：零配置 Linux 首次安装不依赖系统 xz，下载卡住自动换镜像；新增 Fedora / openSUSE 的 rpm 包。</p>
     </td>
     <td width="50%" valign="top">
       <h3>官方引擎，不整仓拷贝</h3>
@@ -41,7 +41,7 @@ Windows · Linux · macOS 开箱即用。引擎从 npm 安装官方 [`@deepseek-
   <tr>
     <td width="50%" valign="top">
       <h3>皮肤中心</h3>
-      <p>默认「深海女仆工坊」已打进安装包，离线也能用，不用再从 GitHub 拉。0.1.13 升级后若皮肤消失，请改用 0.1.18。右上角鲸鱼按钮可换皮，也可从文件夹或 GitHub 地址导入。</p>
+      <p>默认「深海女仆工坊」已打进安装包，离线也能用，不用再从 GitHub 拉。0.1.13 升级后若皮肤消失，请改用 0.1.19。右上角鲸鱼按钮可换皮，也可从文件夹或 GitHub 地址导入。</p>
     </td>
     <td width="50%" valign="top">
       <h3>国内网络与旧配置</h3>
@@ -56,26 +56,26 @@ Windows · Linux · macOS 开箱即用。引擎从 npm 安装官方 [`@deepseek-
 
 | OS | File |
 | --- | --- |
-| Windows | [DeepSeek-0.1.18-win.exe](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.18-win.exe) |
-| Linux x64 | [tar.gz](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.18-linux-x64.tar.gz) · [deb](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.18-linux-amd64.deb) |
-| Linux arm64 | [tar.gz](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.18-linux-arm64.tar.gz) · [deb](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.18-linux-arm64.deb) |
-| macOS | [Apple Silicon dmg](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.18-mac-arm64.dmg) · [Intel dmg](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.18-mac-x64.dmg) |
+| Windows | [DeepSeek-0.1.19-win.exe](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.19-win.exe) |
+| Linux x64 | [tar.gz](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.19-linux-x64.tar.gz) · [deb](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.19-linux-amd64.deb) · [rpm](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.19-linux-x86_64.rpm) |
+| Linux arm64 | [tar.gz](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.19-linux-arm64.tar.gz) · [deb](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.19-linux-arm64.deb) · [rpm](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.19-linux-aarch64.rpm) |
+| macOS | [Apple Silicon dmg](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.19-mac-arm64.dmg) · [Intel dmg](https://dsh.zhuquan.xyz/dl/DeepSeek-0.1.19-mac-x64.dmg) |
 
 Latest: https://dsh.zhuquan.xyz/dl/  
 Homepage: https://dsh.zhuquan.xyz
 
-请用 **0.1.18**。不要用 0.1.0–0.1.17。
+请用 **0.1.19**。不要用 0.1.0–0.1.18。
 
 Linux 请优先 tar.gz 或 deb，不要用 AppImage（Ubuntu 24.04 常缺 libfuse2，双击没窗口）。
 
 ```sh
-tar -xzf DeepSeek-0.1.18-linux-x64.tar.gz
-./DeepSeek-0.1.18-linux-x64/DeepSeek
+tar -xzf DeepSeek-0.1.19-linux-x64.tar.gz
+./DeepSeek-0.1.19-linux-x64/DeepSeek
 ```
 
 macOS 提示「已损坏」不是安装包坏了：把 App 拖到「应用程序」后，终端运行 `xattr -cr /Applications/DeepSeek.app`。说明：https://dsh.zhuquan.xyz/mac.html
 
-首次启动需要联网大约 1–3 分钟（下载 Node 和官方 dsh）。没网过不去。0.1.18 失败后可点「重试」，并清掉半成品 Node 包。若日志出现 node-gyp / make / g++，Linux 先装 `sudo apt install build-essential python3`，macOS 跑 `xcode-select --install`，Windows 需要 Visual Studio Build Tools。默认皮肤已打进安装包，不用再从 GitHub 拉。API Key 在官方界面里填写，或打开 [platform.deepseek.com](https://platform.deepseek.com)。从旧桌面版升级时，会尽量把 `%AppData%\DeepSeek`（以及更早的 `深度求索` / `~/.dsh`）里的密钥和配置接过来。中文系统或中国时区会默认走国内 npm 镜像。
+首次启动需要联网大约 1–3 分钟（下载 Node 和官方 dsh）。没网过不去。0.1.19 失败后可点「重试」，并清掉半成品 Node 包。若日志出现 node-gyp / make / g++，Linux 先装 `sudo apt install build-essential python3`，macOS 跑 `xcode-select --install`，Windows 需要 Visual Studio Build Tools。默认皮肤已打进安装包，不用再从 GitHub 拉。API Key 在官方界面里填写，或打开 [platform.deepseek.com](https://platform.deepseek.com)。从旧桌面版升级时，会尽量把 `%AppData%\DeepSeek`（以及更早的 `深度求索` / `~/.dsh`）里的密钥和配置接过来。中文系统或中国时区会默认走国内 npm 镜像。
 
 ## 和其他社区桌面版怎么选
 
