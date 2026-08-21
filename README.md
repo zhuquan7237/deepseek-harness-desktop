@@ -16,12 +16,12 @@ Windows · Linux · macOS 开箱即用。引擎从 npm 安装官方 [`@deepseek-
 [主页 / 下载](https://dsh.zhuquan.xyz) ·
 [和其他桌面版](https://dsh.zhuquan.xyz/compare.html) ·
 [最新安装包](https://dsh.zhuquan.xyz/dl/) ·
-[Windows](https://dsh.zhuquan.xyz/dl/DeepSeek-0.2.0-win.exe) ·
-[Linux](https://dsh.zhuquan.xyz/dl/DeepSeek-0.2.0-linux-x64.tar.gz) ·
-[macOS](https://dsh.zhuquan.xyz/dl/DeepSeek-0.2.0-mac-arm64.dmg) ·
+[Windows](https://dsh.zhuquan.xyz/dl/DeepSeek-0.2.1-win.exe) ·
+[Linux](https://dsh.zhuquan.xyz/dl/DeepSeek-0.2.1-linux-x64.tar.gz) ·
+[macOS](https://dsh.zhuquan.xyz/dl/DeepSeek-0.2.1-mac-arm64.dmg) ·
 [源码](https://github.com/zhuquan7237/zhuquan7237.github.io/tree/main/desktop)
 
-<img src="https://raw.githubusercontent.com/zhuquan7237/zhuquan7237.github.io/main/assets/desktop-preview.png" alt="DeepSeek Harness 桌面版 0.2.0：默认皮肤「深海女仆工坊」" width="920" />
+<img src="https://raw.githubusercontent.com/zhuquan7237/zhuquan7237.github.io/main/assets/desktop-preview.png" alt="DeepSeek Harness 桌面版 0.2.1：默认皮肤「深海女仆工坊」" width="920" />
 
 </div>
 
@@ -56,21 +56,21 @@ Windows · Linux · macOS 开箱即用。引擎从 npm 安装官方 [`@deepseek-
 
 | OS | File |
 | --- | --- |
-| Windows | [DeepSeek-0.2.0-win.exe](https://dsh.zhuquan.xyz/dl/DeepSeek-0.2.0-win.exe) |
-| Linux x64 | [tar.gz](https://dsh.zhuquan.xyz/dl/DeepSeek-0.2.0-linux-x64.tar.gz) · [deb](https://dsh.zhuquan.xyz/dl/DeepSeek-0.2.0-linux-amd64.deb) · [rpm](https://dsh.zhuquan.xyz/dl/DeepSeek-0.2.0-linux-x86_64.rpm) |
-| Linux arm64 | [tar.gz](https://dsh.zhuquan.xyz/dl/DeepSeek-0.2.0-linux-arm64.tar.gz) · [deb](https://dsh.zhuquan.xyz/dl/DeepSeek-0.2.0-linux-arm64.deb) · [rpm](https://dsh.zhuquan.xyz/dl/DeepSeek-0.2.0-linux-aarch64.rpm) |
-| macOS | [Apple Silicon dmg](https://dsh.zhuquan.xyz/dl/DeepSeek-0.2.0-mac-arm64.dmg) · [Intel dmg](https://dsh.zhuquan.xyz/dl/DeepSeek-0.2.0-mac-x64.dmg) |
+| Windows | [DeepSeek-0.2.1-win.exe](https://dsh.zhuquan.xyz/dl/DeepSeek-0.2.1-win.exe) |
+| Linux x64 | [tar.gz](https://dsh.zhuquan.xyz/dl/DeepSeek-0.2.1-linux-x64.tar.gz) · [deb](https://dsh.zhuquan.xyz/dl/DeepSeek-0.2.1-linux-amd64.deb) · [rpm](https://dsh.zhuquan.xyz/dl/DeepSeek-0.2.1-linux-x86_64.rpm) |
+| Linux arm64 | [tar.gz](https://dsh.zhuquan.xyz/dl/DeepSeek-0.2.1-linux-arm64.tar.gz) · [deb](https://dsh.zhuquan.xyz/dl/DeepSeek-0.2.1-linux-arm64.deb) · [rpm](https://dsh.zhuquan.xyz/dl/DeepSeek-0.2.1-linux-aarch64.rpm) |
+| macOS | [Apple Silicon dmg](https://dsh.zhuquan.xyz/dl/DeepSeek-0.2.1-mac-arm64.dmg) · [Intel dmg](https://dsh.zhuquan.xyz/dl/DeepSeek-0.2.1-mac-x64.dmg) |
 
 Latest: https://dsh.zhuquan.xyz/dl/  
 Homepage: https://dsh.zhuquan.xyz
 
-请用 **0.2.0**。不要用 0.1.0–0.1.19。
+请用 **0.2.1**。不要用 0.1.0–0.1.19。
 
 Linux 请优先 tar.gz 或 deb，不要用 AppImage（Ubuntu 24.04 常缺 libfuse2，双击没窗口）。
 
 ```sh
-tar -xzf DeepSeek-0.2.0-linux-x64.tar.gz
-./DeepSeek-0.2.0-linux-x64/DeepSeek
+tar -xzf DeepSeek-0.2.1-linux-x64.tar.gz
+./DeepSeek-0.2.1-linux-x64/DeepSeek
 ```
 
 macOS 提示「已损坏」不是安装包坏了：把 App 拖到「应用程序」后，终端运行 `xattr -cr /Applications/DeepSeek.app`。说明：https://dsh.zhuquan.xyz/mac.html
