@@ -1,0 +1,21 @@
+# https://docs.devin.ai/onboard-devin/environment-yaml
+# One-time setup (e.g., install system tools, global CLIs).
+initialize: |
+  curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+  sudo apt-get install -y nodejs
+# Install project dependencies (runs during builds, surfaced to agent at session start).
+maintenance: |
+  if [ -f package.json ]; then npm install; fi
+knowledge:
+  - name: notes
+    contents: |
+      main has no build: preview with `python3 -m http.server 8765` (site.css/assets/dl are not in this repo). For the Electron app: `git checkout cursor/migrate-desktop-f4c3 && npm install`.
+  - name: test
+    contents: |
+      npm test   # Electron branch only (vitest)
+  - name: build
+    contents: |
+      npm run build   # Electron branch only: python3 scripts/generate-icon.py && tsc
+  - name: startup
+    contents: |
+      npm start   # Electron branch only; on Linux VM use DISPLAY=:0 npx electron . --no-sandbox
