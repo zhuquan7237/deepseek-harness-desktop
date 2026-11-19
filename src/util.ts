@@ -313,7 +313,7 @@ export function resolveLinuxDesktopDir(
 
 export interface WorkspaceRegistry {
   unit: { name: string; version: number };
-  global: { initialized: boolean; workspaceIds: string[]; archivedSessionIds: string[] };
+  global: { initialized: boolean; workspaceIds: string[]; archivedSessionIds: string[]; [key: string]: unknown };
   tables: { workspaces: Record<string, unknown> };
 }
 
@@ -360,6 +360,101 @@ export function seedWorkspaceRegistry(
       },
     },
   };
+}
+
+export interface WorkspaceSwitch {
+  registry: WorkspaceRegistry;
+  workspaceId: string;
+  /** Newest live session in the workspace, which the UI should reopen; null opens a new one. */
+  sessionId: string | null;
+}
+
+/**
+ * Open Workspace must land the Harness UI on the picked folder. The UI only
+ * offers workspaces from dsh's registry and, with nothing to restore, opens the
+ * most recently active one, so the folder is registered (or re-registered) and
+ * made the most recent entry. Returns null for a registry we don't recognise.
+ */
+export function switchWorkspaceRegistry(
+  existing: unknown,
+  entry: { id: string; path: string; title: string; now: string },
+  recency: Readonly<Record<string, number>> = {},
+): WorkspaceSwitch | null {
+  if (existing === null || existing === undefined) {
+    const seeded = seedWorkspaceRegistry(null, entry);
+    return seeded && { registry: seeded, workspaceId: entry.id, sessionId: null };
+  }
+  if (typeof existing !== "object") return null;
+  const registry = existing as Partial<WorkspaceRegistry>;
+  if (registry.unit && (registry.unit.name !== "workspace" || registry.unit.version !== 2)) return null;
+  const global = registry.global ?? { initialized: true, workspaceIds: [], archivedSessionIds: [] };
+  const table = registry.tables?.workspaces ?? {};
+  if (typeof global !== "object" || !Array.isArray(global.workspaceIds) || typeof table !== "object") return null;
+  const archived = new Set(Array.isArray(global.archivedSessionIds) ? global.archivedSessionIds : []);
+
+  const workspaces: Record<string, unknown> = { ...table };
+  let workspaceId = Object.keys(table).find((id) => (table[id] as { path?: unknown } | null)?.path === entry.path);
+  let sessionId: string | null = null;
+  if (workspaceId) {
+    const record = table[workspaceId] as { sessionIds?: unknown };
+    const sessionIds = Array.isArray(record.sessionIds) ? (record.sessionIds as string[]) : [];
+    // sessionIds is the user's manual order, so recency decides; order only breaks ties.
+    const rank = (id: string) => recency[id] ?? Number.NEGATIVE_INFINITY;
+    for (const id of sessionIds) {
+      if (!archived.has(id) && (sessionId === null || rank(id) > rank(sessionId))) sessionId = id;
+    }
+    // Without sessions the UI ranks a workspace by createdAt, so a re-opened one counts as new.
+    if (!sessionId) workspaces[workspaceId] = { ...record, createdAt: entry.now, updatedAt: entry.now };
+  } else {
+    workspaceId = entry.id;
+    workspaces[workspaceId] = {
+      path: entry.path,
+      title: entry.title,
+      sessionIds: [],
+      createdAt: entry.now,
+      updatedAt: entry.now,
+    };
+  }
+
+  return {
+    registry: {
+      unit: registry.unit ?? { name: "workspace", version: 2 },
+      global: {
+        ...global,
+        initialized: true,
+        archivedSessionIds: global.archivedSessionIds ?? [],
+        workspaceIds: [workspaceId, ...global.workspaceIds.filter((id) => id !== workspaceId)],
+      },
+      tables: { ...registry.tables, workspaces },
+    },
+    workspaceId,
+    sessionId,
+  };
+}
+
+/** Session ids registered for the workspace at `workspacePath`, in the registry's order. */
+export function workspaceSessionIds(existing: unknown, workspacePath: string): string[] {
+  const table = (existing as Partial<WorkspaceRegistry> | null)?.tables?.workspaces;
+  if (!table || typeof table !== "object") return [];
+  for (const record of Object.values(table) as { path?: unknown; sessionIds?: unknown }[]) {
+    if (record?.path === workspacePath && Array.isArray(record.sessionIds)) {
+      return record.sessionIds.filter((id): id is string => typeof id === "string");
+    }
+  }
+  return [];
+}
+
+/**
+ * The time dsh's session list sorts a session by, read from its cached
+ * projection: max(header createdAt, last prompt). Undefined when unknown.
+ */
+export function sessionUpdatedAt(projection: unknown): number | undefined {
+  const record = (projection as { record?: { identity?: { createdAt?: unknown }; rows?: Record<string, { val?: unknown }> } })
+    ?.record;
+  const createdAt = record?.identity?.createdAt;
+  if (typeof createdAt !== "number") return undefined;
+  const lastPromptAt = (record?.rows?.sessionListMetadata?.val as { lastPromptAt?: unknown } | undefined)?.lastPromptAt;
+  return Math.max(createdAt, typeof lastPromptAt === "number" ? lastPromptAt : 0);
 }
 
 export function isSystemInstalledApp(execPath: string): boolean {

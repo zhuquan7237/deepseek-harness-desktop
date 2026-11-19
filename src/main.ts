@@ -3,11 +3,18 @@ import { mkdir } from "node:fs/promises";
 import path from "node:path";
 import { homedir } from "node:os";
 import { loadSettings, saveSettings } from "./settings";
-import { ensureHarness, fetchPublishedVersion, startHarnessWeb, stopHarness, type RunningHarness } from "./harness";
+import {
+  createHarnessSession,
+  ensureHarness,
+  fetchPublishedVersion,
+  startHarnessWeb,
+  stopHarness,
+  type RunningHarness,
+} from "./harness";
 import { applyLinuxRuntimeFlags } from "./linux-flags";
 import { resolveNodeRuntime } from "./node-runtime";
 import { appIconFile, installUserShortcuts, needsUserShortcuts } from "./desktop-integration";
-import { ensureDefaultWorkspace } from "./dsh-workspace";
+import { ensureDefaultWorkspace, switchWorkspace } from "./dsh-workspace";
 import { loadWindowState, saveWindowState } from "./window-state";
 import { APP_DISPLAY_NAME, APP_ID, NPM_REGISTRY, resolveUiLocale, type DesktopSettings } from "./util";
 
@@ -17,6 +24,10 @@ const linuxReady = applyLinuxRuntimeFlags();
 let mainWindow: BrowserWindow | null = null;
 let splashWindow: BrowserWindow | null = null;
 let running: RunningHarness | null = null;
+/** Folder picked via Open Workspace that the next boot must switch the Harness UI to. */
+let pendingWorkspaceSwitch: string | null = null;
+/** Session selection the Harness UI restores on its next load (see preload). */
+let pendingUiSelection: { sessionId?: string } | null = null;
 let settings: DesktopSettings;
 
 function userData(): string {
@@ -301,6 +312,7 @@ async function chooseWorkspace(reboot: boolean): Promise<void> {
   });
   if (picked.canceled || !picked.filePaths[0]) return;
   settings.workspaceDir = picked.filePaths[0];
+  pendingWorkspaceSwitch = settings.workspaceDir;
   await saveSettings(userData(), settings);
   if (reboot) await boot(false);
 }
@@ -410,10 +422,18 @@ async function boot(forceUpdate: boolean): Promise<void> {
     await saveSettings(userData(), settings);
 
     sendSplash("status", { phase: "start", text: `正在启动界面（dsh ${install.version}）…` });
-    stopHarness(running);
+    await stopHarness(running);
+    running = null;
     const workspaceDir = await defaultWorkspace();
     const dshHome = path.join(userData(), "dsh-home");
-    await ensureDefaultWorkspace(dshHome, workspaceDir).catch(() => false);
+    let switched: { workspaceId: string; sessionId: string | null } | null = null;
+    if (pendingWorkspaceSwitch === workspaceDir) {
+      switched = await switchWorkspace(dshHome, workspaceDir).catch(() => null);
+    } else {
+      await ensureDefaultWorkspace(dshHome, workspaceDir).catch(() => false);
+    }
+    pendingWorkspaceSwitch = null;
+    pendingUiSelection = null;
     running = await startHarnessWeb({
       runtime,
       install,
@@ -421,6 +441,15 @@ async function boot(forceUpdate: boolean): Promise<void> {
       dshHome,
       onLog: (line) => sendSplash("log", line),
     });
+    if (switched) {
+      const sessionId =
+        switched.sessionId ??
+        (await createHarnessSession(running.url, switched.workspaceId).catch((error: unknown) => {
+          sendSplash("log", `无法在新工作区创建会话：${error instanceof Error ? error.message : String(error)}`);
+          return null;
+        }));
+      pendingUiSelection = sessionId ? { sessionId } : {};
+    }
     buildMenu();
     sendSplash("status", { phase: "start", text: "正在打开 DeepSeek Harness…" });
     if (mainWindow && !mainWindow.isDestroyed()) {
@@ -474,6 +503,14 @@ if (linuxReady) {
       ipcMain.on("settings:apply", () => {
         void boot(true);
       });
+      ipcMain.on("harness:take-selection", (event) => {
+        const fromHarness =
+          event.sender === mainWindow?.webContents &&
+          running !== null &&
+          new URL(event.senderFrame?.url || "about:blank").origin === new URL(running.url).origin;
+        event.returnValue = fromHarness ? pendingUiSelection : null;
+        if (fromHarness) pendingUiSelection = null;
+      });
       ipcMain.on("splash:quit", () => {
         app.quit();
       });
@@ -486,7 +523,7 @@ if (linuxReady) {
     });
 
     app.on("before-quit", () => {
-      stopHarness(running);
+      void stopHarness(running);
       running = null;
     });
   }

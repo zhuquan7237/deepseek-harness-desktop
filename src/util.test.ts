@@ -22,6 +22,9 @@ import {
   resolveLinuxDesktopDir,
   resolveUiLocale,
   seedWorkspaceRegistry,
+  sessionUpdatedAt,
+  switchWorkspaceRegistry,
+  workspaceSessionIds,
 } from "./util";
 
 describe("parseDshWebUrl", () => {
@@ -187,5 +190,91 @@ describe("typical-user defaults", () => {
     ).toBe("/home/me/桌面");
     expect(isSystemInstalledApp("/usr/bin/DeepSeek")).toBe(true);
     expect(isSystemInstalledApp("/home/me/DeepSeek-0.1.3-linux-x64/DeepSeek")).toBe(false);
+  });
+});
+
+describe("switchWorkspaceRegistry", () => {
+  const now = "2026-11-19T03:00:00.000Z";
+  const entry = { id: "new-id", path: "/home/me/picked", title: "picked", now };
+  const registry = () => ({
+    unit: { name: "workspace", version: 2 },
+    global: {
+      initialized: true,
+      defaultWorkspaceId: "old",
+      workspaceIds: ["old", "picked-id"],
+      archivedSessionIds: ["s-archived"],
+      pinnedSessionIds: ["s-old"],
+    },
+    tables: {
+      workspaces: {
+        old: { path: "/home/me/DeepSeek", title: "DeepSeek", sessionIds: ["s-old"], createdAt: "2026-01-01", updatedAt: "2026-01-02" },
+        "picked-id": { path: "/home/me/picked", title: "picked", sessionIds: ["s-archived", "s-live", "s-older"], createdAt: "2026-01-01", updatedAt: "2026-01-01" },
+      },
+    },
+  });
+
+  it("registers a new folder first and as the newest workspace", () => {
+    const result = switchWorkspaceRegistry(registry(), { ...entry, path: "/home/me/fresh", title: "fresh" });
+    expect(result?.workspaceId).toBe("new-id");
+    expect(result?.sessionId).toBeNull();
+    expect(result?.registry.global.workspaceIds).toEqual(["new-id", "old", "picked-id"]);
+    expect(result?.registry.tables.workspaces["new-id"]).toEqual({
+      path: "/home/me/fresh",
+      title: "fresh",
+      sessionIds: [],
+      createdAt: now,
+      updatedAt: now,
+    });
+    expect(result?.registry.global).toMatchObject({ defaultWorkspaceId: "old", pinnedSessionIds: ["s-old"] });
+    expect(result?.registry.tables.workspaces.old).toEqual(registry().tables.workspaces.old);
+  });
+
+  it("reuses a registered folder and points at its newest live session", () => {
+    const result = switchWorkspaceRegistry(registry(), entry);
+    expect(result?.workspaceId).toBe("picked-id");
+    expect(result?.sessionId).toBe("s-live");
+    expect(result?.registry.global.workspaceIds).toEqual(["picked-id", "old"]);
+    expect(Object.keys(result?.registry.tables.workspaces ?? {})).toEqual(["old", "picked-id"]);
+    expect(result?.registry.tables.workspaces["picked-id"]).toEqual(registry().tables.workspaces["picked-id"]);
+  });
+
+  it("picks the most recently active live session, not the first in manual order", () => {
+    const result = switchWorkspaceRegistry(registry(), entry, { "s-live": 100, "s-older": 300, "s-archived": 900 });
+    expect(result?.sessionId).toBe("s-older");
+    expect(switchWorkspaceRegistry(registry(), entry, { "s-older": 300 })?.sessionId).toBe("s-older");
+    expect(switchWorkspaceRegistry(registry(), entry, { "s-live": 300, "s-older": 300 })?.sessionId).toBe("s-live");
+  });
+
+  it("refreshes a registered folder without sessions so the UI ranks it newest", () => {
+    const base = registry();
+    base.tables.workspaces["picked-id"].sessionIds = ["s-archived"];
+    const result = switchWorkspaceRegistry(base, entry);
+    expect(result?.sessionId).toBeNull();
+    expect(result?.registry.tables.workspaces["picked-id"]).toMatchObject({ createdAt: now, updatedAt: now });
+  });
+
+  it("seeds a missing registry and refuses unknown formats", () => {
+    expect(switchWorkspaceRegistry(null, entry)?.registry.global.workspaceIds).toEqual(["new-id"]);
+    expect(switchWorkspaceRegistry({ unit: { name: "workspace", version: 3 } }, entry)).toBeNull();
+    expect(switchWorkspaceRegistry("broken", entry)).toBeNull();
+  });
+});
+
+describe("workspace session helpers", () => {
+  it("lists a workspace's sessions by path", () => {
+    const registry = { tables: { workspaces: { a: { path: "/x", sessionIds: ["s1", 2, "s2"] }, b: { path: "/y" } } } };
+    expect(workspaceSessionIds(registry, "/x")).toEqual(["s1", "s2"]);
+    expect(workspaceSessionIds(registry, "/y")).toEqual([]);
+    expect(workspaceSessionIds(null, "/x")).toEqual([]);
+  });
+
+  it("reads the session list time from a projection cache entry", () => {
+    const entry = (lastPromptAt: number | null) => ({
+      record: { identity: { createdAt: 100 }, rows: { sessionListMetadata: { val: { blank: false, lastPromptAt } } } },
+    });
+    expect(sessionUpdatedAt(entry(500))).toBe(500);
+    expect(sessionUpdatedAt(entry(null))).toBe(100);
+    expect(sessionUpdatedAt({ record: {} })).toBeUndefined();
+    expect(sessionUpdatedAt(null)).toBeUndefined();
   });
 });
