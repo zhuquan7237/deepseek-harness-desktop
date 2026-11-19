@@ -1,6 +1,15 @@
 import { contextBridge, ipcRenderer } from "electron";
 import type { DesktopSettings } from "./util";
 
+// Runs before the Harness UI's scripts, so its persisted selection already
+// points at the workspace the user just opened when it restores.
+try {
+  const selection = ipcRenderer.sendSync("harness:take-selection");
+  if (selection) localStorage.setItem("dsh.sessions.current", JSON.stringify(selection));
+} catch {
+  // Not the Harness UI, or storage unavailable: the UI keeps its own restore.
+}
+
 contextBridge.exposeInMainWorld("desktop", {
   onStatus: (handler: (payload: { phase: string; text: string }) => void) => {
     ipcRenderer.on("status", (_event, payload) => handler(payload));

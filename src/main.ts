@@ -7,7 +7,7 @@ import { ensureHarness, fetchPublishedVersion, startHarnessWeb, stopHarness, typ
 import { applyLinuxRuntimeFlags } from "./linux-flags";
 import { resolveNodeRuntime } from "./node-runtime";
 import { appIconFile, installUserShortcuts, needsUserShortcuts } from "./desktop-integration";
-import { ensureDefaultWorkspace } from "./dsh-workspace";
+import { ensureDefaultWorkspace, switchWorkspace } from "./dsh-workspace";
 import { loadWindowState, saveWindowState } from "./window-state";
 import { APP_DISPLAY_NAME, APP_ID, NPM_REGISTRY, resolveUiLocale, type DesktopSettings } from "./util";
 
@@ -17,6 +17,10 @@ const linuxReady = applyLinuxRuntimeFlags();
 let mainWindow: BrowserWindow | null = null;
 let splashWindow: BrowserWindow | null = null;
 let running: RunningHarness | null = null;
+/** Folder picked via Open Workspace that the next boot must switch the Harness UI to. */
+let pendingWorkspaceSwitch: string | null = null;
+/** Session selection the Harness UI restores on its next load (see preload). */
+let pendingUiSelection: { sessionId?: string } | null = null;
 let settings: DesktopSettings;
 
 function userData(): string {
@@ -301,6 +305,7 @@ async function chooseWorkspace(reboot: boolean): Promise<void> {
   });
   if (picked.canceled || !picked.filePaths[0]) return;
   settings.workspaceDir = picked.filePaths[0];
+  pendingWorkspaceSwitch = settings.workspaceDir;
   await saveSettings(userData(), settings);
   if (reboot) await boot(false);
 }
@@ -410,10 +415,17 @@ async function boot(forceUpdate: boolean): Promise<void> {
     await saveSettings(userData(), settings);
 
     sendSplash("status", { phase: "start", text: `正在启动界面（dsh ${install.version}）…` });
-    stopHarness(running);
+    await stopHarness(running);
+    running = null;
     const workspaceDir = await defaultWorkspace();
     const dshHome = path.join(userData(), "dsh-home");
-    await ensureDefaultWorkspace(dshHome, workspaceDir).catch(() => false);
+    if (pendingWorkspaceSwitch === workspaceDir) {
+      const switched = await switchWorkspace(dshHome, workspaceDir).catch(() => null);
+      pendingUiSelection = switched && (switched.sessionId ? { sessionId: switched.sessionId } : {});
+    } else {
+      await ensureDefaultWorkspace(dshHome, workspaceDir).catch(() => false);
+    }
+    pendingWorkspaceSwitch = null;
     running = await startHarnessWeb({
       runtime,
       install,
@@ -474,6 +486,14 @@ if (linuxReady) {
       ipcMain.on("settings:apply", () => {
         void boot(true);
       });
+      ipcMain.on("harness:take-selection", (event) => {
+        const fromHarness =
+          event.sender === mainWindow?.webContents &&
+          running !== null &&
+          new URL(event.senderFrame?.url || "about:blank").origin === new URL(running.url).origin;
+        event.returnValue = fromHarness ? pendingUiSelection : null;
+        if (fromHarness) pendingUiSelection = null;
+      });
       ipcMain.on("splash:quit", () => {
         app.quit();
       });
@@ -486,7 +506,7 @@ if (linuxReady) {
     });
 
     app.on("before-quit", () => {
-      stopHarness(running);
+      void stopHarness(running);
       running = null;
     });
   }

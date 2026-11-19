@@ -168,7 +168,14 @@ export async function startHarnessWeb(options: {
   return { process: child, url, version: options.install.version };
 }
 
-export function stopHarness(running: RunningHarness | null): void {
-  if (!running?.process.pid) return;
-  running.process.kill("SIGTERM");
+/** Resolves once dsh has exited, so its storage is flushed before anything rewrites it. */
+export async function stopHarness(running: RunningHarness | null, timeoutMs = 5_000): Promise<void> {
+  const child = running?.process;
+  if (!child?.pid || child.exitCode !== null || child.signalCode !== null) return;
+  const exited = new Promise<boolean>((resolve) => child.once("exit", () => resolve(true)));
+  const timeout = (ms: number) => new Promise<boolean>((resolve) => setTimeout(() => resolve(false), ms).unref());
+  child.kill("SIGTERM");
+  if (await Promise.race([exited, timeout(timeoutMs)])) return;
+  child.kill("SIGKILL");
+  await Promise.race([exited, timeout(1_000)]);
 }
