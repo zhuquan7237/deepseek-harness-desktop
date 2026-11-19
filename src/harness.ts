@@ -1,5 +1,5 @@
 import { spawn, type ChildProcess } from "node:child_process";
-import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { mkdir, readdir, readFile, rm, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import type { NodeRuntime } from "./node-runtime";
 import { runCapture } from "./node-runtime";
@@ -26,9 +26,11 @@ export interface RunningHarness {
 }
 
 export async function fetchPublishedVersion(registry: string, channel: string): Promise<string> {
-  const distTag = channel === "latest" || channel === "next" ? channel : channel;
-  const url = `${registry.replace(/\/$/, "")}/${DSH_PACKAGE}/${distTag}`;
-  const response = await fetch(url, { headers: { Accept: "application/json" } });
+  const url = `${registry.replace(/\/$/, "")}/${DSH_PACKAGE}/${channel}`;
+  const response = await fetch(url, {
+    headers: { Accept: "application/json" },
+    signal: AbortSignal.timeout(10_000),
+  });
   if (!response.ok) throw new Error(`npm registry ${response.status} for ${url}`);
   const data = (await response.json()) as { version?: string };
   if (!data.version) throw new Error(`No version in registry response for ${channel}`);
@@ -50,11 +52,39 @@ export function dshBin(prefix: string): string {
   return path.join(prefix, "node_modules", DSH_PACKAGE, "lib", "bin.js");
 }
 
+async function readCachedHarness(prefix: string): Promise<HarnessInstall | null> {
+  const version = await readInstalledVersion(prefix);
+  if (!version) return null;
+  const bin = dshBin(prefix);
+  const entry = await stat(bin).catch(() => null);
+  return entry?.isFile() ? { version, bin, prefix } : null;
+}
+
+async function findCachedHarness(
+  harnessRoot: string,
+  lastVersion: string,
+  failedVersion?: string,
+): Promise<HarnessInstall | null> {
+  const entries = await readdir(harnessRoot, { withFileTypes: true }).catch(() => []);
+  const versions = entries.filter((entry) => entry.isDirectory() && entry.name !== failedVersion)
+    .map((entry) => entry.name)
+    .sort((a, b) => compareVersions(b, a));
+  const preferred = versions.indexOf(lastVersion);
+  if (preferred > 0) versions.unshift(...versions.splice(preferred, 1));
+
+  for (const version of versions) {
+    const cached = await readCachedHarness(path.join(harnessRoot, version));
+    if (cached?.version === version) return cached;
+  }
+  return null;
+}
+
 export async function ensureHarness(
   settings: DesktopSettings,
   runtime: NodeRuntime,
   harnessRoot: string,
   onLog: (line: string) => void,
+  { allowCachedFallback = true }: { allowCachedFallback?: boolean } = {},
 ): Promise<HarnessInstall> {
   if (settings.localHarnessDir) {
     const localBin = path.join(settings.localHarnessDir, "apps", "cli", "lib", "bin.js");
@@ -64,21 +94,39 @@ export async function ensureHarness(
     return { version: pkg.version ?? "local", bin: localBin, prefix: settings.localHarnessDir };
   }
 
-  const wanted = settings.channel === "latest" || settings.channel === "next"
-    ? await fetchPublishedVersion(settings.registry || NPM_REGISTRY, settings.channel)
-    : settings.channel.replace(/^@?deepseek-ai\/dsh@?/, "") || settings.channel;
-  const prefix = path.join(harnessRoot, wanted);
-  const installed = await readInstalledVersion(prefix);
-  if (installed === wanted) {
-    onLog(`引擎 ${wanted} 已安装，跳过下载`);
-    return { version: wanted, bin: dshBin(prefix), prefix };
-  }
-  if (installed && !settings.autoUpdateHarness && compareVersions(installed, wanted) >= 0) {
-    onLog(`保留已安装的引擎 ${installed}（已关闭自动更新）`);
-    return { version: installed, bin: dshBin(prefix), prefix };
+  const { channel } = settings;
+  const registry = settings.registry || NPM_REGISTRY;
+  const floating = channel === "latest" || channel === "next";
+  async function useCacheOrThrow(error: unknown, failedVersion?: string): Promise<HarnessInstall> {
+    if (floating && allowCachedFallback) {
+      const cached = await findCachedHarness(harnessRoot, settings.lastHarnessVersion, failedVersion);
+      if (cached) {
+        onLog(`无法从 npm 更新引擎，正在使用缓存版本 ${cached.version}`);
+        return cached;
+      }
+    }
+    throw error;
   }
 
-  const registry = settings.registry || NPM_REGISTRY;
+  let wanted = channel.replace(/^@?deepseek-ai\/dsh@?/, "") || channel;
+  if (floating) {
+    try {
+      wanted = await fetchPublishedVersion(registry, channel);
+    } catch (error) {
+      return useCacheOrThrow(error);
+    }
+  }
+  const prefix = path.join(harnessRoot, wanted);
+  const installed = await readCachedHarness(prefix);
+  if (installed?.version === wanted) {
+    onLog(`引擎 ${wanted} 已安装，跳过下载`);
+    return installed;
+  }
+  if (installed && !settings.autoUpdateHarness && compareVersions(installed.version, wanted) >= 0) {
+    onLog(`保留已安装的引擎 ${installed.version}（已关闭自动更新）`);
+    return installed;
+  }
+
   onLog(`正在从 npm 安装 ${DSH_PACKAGE}@${wanted}`);
   await rm(prefix, { recursive: true, force: true });
   await mkdir(prefix, { recursive: true });
@@ -95,17 +143,22 @@ export async function ensureHarness(
     "--registry",
     registry,
   ]);
-  await runCapture(
-    npm.command,
-    npm.args,
-    prefix,
-    {
-      PATH: `${path.dirname(runtime.node)}${path.delimiter}${process.env.PATH ?? ""}`,
-      npm_config_update_notifier: "false",
-      npm_config_registry: registry,
-    },
-    onLog,
-  );
+  try {
+    await runCapture(
+      npm.command,
+      npm.args,
+      prefix,
+      {
+        PATH: `${path.dirname(runtime.node)}${path.delimiter}${process.env.PATH ?? ""}`,
+        npm_config_update_notifier: "false",
+        npm_config_registry: registry,
+      },
+      onLog,
+    );
+  } catch (error) {
+    await rm(prefix, { recursive: true, force: true }).catch(() => undefined);
+    return useCacheOrThrow(error, wanted);
+  }
   const version = (await readInstalledVersion(prefix)) ?? wanted;
   onLog(`引擎 ${version} 已就绪`);
   return { version, bin: dshBin(prefix), prefix };
