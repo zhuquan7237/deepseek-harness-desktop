@@ -405,6 +405,7 @@ async function boot(forceUpdate: boolean): Promise<void> {
       runtime,
       path.join(userData(), "harness"),
       (line) => sendSplash("log", line),
+      { allowCachedFallback: !forceUpdate },
     );
     settings.lastHarnessVersion = install.version;
     await saveSettings(userData(), settings);
