@@ -1,4 +1,5 @@
 import { spawn, type ChildProcess } from "node:child_process";
+import { randomUUID } from "node:crypto";
 import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import type { NodeRuntime } from "./node-runtime";
@@ -166,6 +167,50 @@ export async function startHarnessWeb(options: {
   });
 
   return { process: child, url, version: options.install.version };
+}
+
+/**
+ * Create a blank session in a workspace through dsh's RPC gateway, signing in
+ * with the launch token like the browser does. Used when Open Workspace picks a
+ * folder with no live session: otherwise the UI would fall back to whichever
+ * workspace has the newest activity, archived sessions included.
+ */
+export async function createHarnessSession(
+  harnessUrl: string,
+  workspaceId: string,
+  fetchImpl: typeof fetch = fetch,
+): Promise<string> {
+  const signal = AbortSignal.timeout(10_000);
+  const signIn = await fetchImpl(harnessUrl, { redirect: "manual", signal });
+  const cookie = signIn.headers
+    .getSetCookie()
+    .map((value) => value.split(";", 1)[0])
+    .join("; ");
+  if (!cookie) throw new Error(`dsh sign-in returned HTTP ${signIn.status} without a cookie`);
+  const origin = new URL(harnessUrl).origin;
+  const rpcId = randomUUID();
+  const response = await fetchImpl(`${origin}/api/session/create`, {
+    method: "POST",
+    headers: { "content-type": "application/json", cookie, origin },
+    body: JSON.stringify({
+      type: "client-request",
+      rpcId,
+      method: "session/create",
+      payload: { args: { request: { workspaceId } } },
+    }),
+    signal,
+  });
+  if (!response.ok) throw new Error(`dsh session/create returned HTTP ${response.status}`);
+  const body = (await response.json()) as {
+    type?: unknown;
+    rpcId?: unknown;
+    result?: { ok?: unknown; value?: { sessionId?: unknown }; error?: { message?: unknown } };
+  };
+  const sessionId = body.result?.value?.sessionId;
+  if (body.type !== "server-response" || body.rpcId !== rpcId || body.result?.ok !== true || typeof sessionId !== "string") {
+    throw new Error(`dsh session/create failed: ${String(body.result?.error?.message ?? "invalid response")}`);
+  }
+  return sessionId;
 }
 
 /** Resolves once dsh has exited, so its storage is flushed before anything rewrites it. */

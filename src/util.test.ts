@@ -22,7 +22,9 @@ import {
   resolveLinuxDesktopDir,
   resolveUiLocale,
   seedWorkspaceRegistry,
+  sessionUpdatedAt,
   switchWorkspaceRegistry,
+  workspaceSessionIds,
 } from "./util";
 
 describe("parseDshWebUrl", () => {
@@ -236,6 +238,13 @@ describe("switchWorkspaceRegistry", () => {
     expect(result?.registry.tables.workspaces["picked-id"]).toEqual(registry().tables.workspaces["picked-id"]);
   });
 
+  it("picks the most recently active live session, not the first in manual order", () => {
+    const result = switchWorkspaceRegistry(registry(), entry, { "s-live": 100, "s-older": 300, "s-archived": 900 });
+    expect(result?.sessionId).toBe("s-older");
+    expect(switchWorkspaceRegistry(registry(), entry, { "s-older": 300 })?.sessionId).toBe("s-older");
+    expect(switchWorkspaceRegistry(registry(), entry, { "s-live": 300, "s-older": 300 })?.sessionId).toBe("s-live");
+  });
+
   it("refreshes a registered folder without sessions so the UI ranks it newest", () => {
     const base = registry();
     base.tables.workspaces["picked-id"].sessionIds = ["s-archived"];
@@ -248,5 +257,24 @@ describe("switchWorkspaceRegistry", () => {
     expect(switchWorkspaceRegistry(null, entry)?.registry.global.workspaceIds).toEqual(["new-id"]);
     expect(switchWorkspaceRegistry({ unit: { name: "workspace", version: 3 } }, entry)).toBeNull();
     expect(switchWorkspaceRegistry("broken", entry)).toBeNull();
+  });
+});
+
+describe("workspace session helpers", () => {
+  it("lists a workspace's sessions by path", () => {
+    const registry = { tables: { workspaces: { a: { path: "/x", sessionIds: ["s1", 2, "s2"] }, b: { path: "/y" } } } };
+    expect(workspaceSessionIds(registry, "/x")).toEqual(["s1", "s2"]);
+    expect(workspaceSessionIds(registry, "/y")).toEqual([]);
+    expect(workspaceSessionIds(null, "/x")).toEqual([]);
+  });
+
+  it("reads the session list time from a projection cache entry", () => {
+    const entry = (lastPromptAt: number | null) => ({
+      record: { identity: { createdAt: 100 }, rows: { sessionListMetadata: { val: { blank: false, lastPromptAt } } } },
+    });
+    expect(sessionUpdatedAt(entry(500))).toBe(500);
+    expect(sessionUpdatedAt(entry(null))).toBe(100);
+    expect(sessionUpdatedAt({ record: {} })).toBeUndefined();
+    expect(sessionUpdatedAt(null)).toBeUndefined();
   });
 });

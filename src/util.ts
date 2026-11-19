@@ -378,6 +378,7 @@ export interface WorkspaceSwitch {
 export function switchWorkspaceRegistry(
   existing: unknown,
   entry: { id: string; path: string; title: string; now: string },
+  recency: Readonly<Record<string, number>> = {},
 ): WorkspaceSwitch | null {
   if (existing === null || existing === undefined) {
     const seeded = seedWorkspaceRegistry(null, entry);
@@ -397,7 +398,11 @@ export function switchWorkspaceRegistry(
   if (workspaceId) {
     const record = table[workspaceId] as { sessionIds?: unknown };
     const sessionIds = Array.isArray(record.sessionIds) ? (record.sessionIds as string[]) : [];
-    sessionId = sessionIds.find((id) => !archived.has(id)) ?? null;
+    // sessionIds is the user's manual order, so recency decides; order only breaks ties.
+    const rank = (id: string) => recency[id] ?? Number.NEGATIVE_INFINITY;
+    for (const id of sessionIds) {
+      if (!archived.has(id) && (sessionId === null || rank(id) > rank(sessionId))) sessionId = id;
+    }
     // Without sessions the UI ranks a workspace by createdAt, so a re-opened one counts as new.
     if (!sessionId) workspaces[workspaceId] = { ...record, createdAt: entry.now, updatedAt: entry.now };
   } else {
@@ -425,6 +430,31 @@ export function switchWorkspaceRegistry(
     workspaceId,
     sessionId,
   };
+}
+
+/** Session ids registered for the workspace at `workspacePath`, in the registry's order. */
+export function workspaceSessionIds(existing: unknown, workspacePath: string): string[] {
+  const table = (existing as Partial<WorkspaceRegistry> | null)?.tables?.workspaces;
+  if (!table || typeof table !== "object") return [];
+  for (const record of Object.values(table) as { path?: unknown; sessionIds?: unknown }[]) {
+    if (record?.path === workspacePath && Array.isArray(record.sessionIds)) {
+      return record.sessionIds.filter((id): id is string => typeof id === "string");
+    }
+  }
+  return [];
+}
+
+/**
+ * The time dsh's session list sorts a session by, read from its cached
+ * projection: max(header createdAt, last prompt). Undefined when unknown.
+ */
+export function sessionUpdatedAt(projection: unknown): number | undefined {
+  const record = (projection as { record?: { identity?: { createdAt?: unknown }; rows?: Record<string, { val?: unknown }> } })
+    ?.record;
+  const createdAt = record?.identity?.createdAt;
+  if (typeof createdAt !== "number") return undefined;
+  const lastPromptAt = (record?.rows?.sessionListMetadata?.val as { lastPromptAt?: unknown } | undefined)?.lastPromptAt;
+  return Math.max(createdAt, typeof lastPromptAt === "number" ? lastPromptAt : 0);
 }
 
 export function isSystemInstalledApp(execPath: string): boolean {

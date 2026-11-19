@@ -3,7 +3,14 @@ import { mkdir } from "node:fs/promises";
 import path from "node:path";
 import { homedir } from "node:os";
 import { loadSettings, saveSettings } from "./settings";
-import { ensureHarness, fetchPublishedVersion, startHarnessWeb, stopHarness, type RunningHarness } from "./harness";
+import {
+  createHarnessSession,
+  ensureHarness,
+  fetchPublishedVersion,
+  startHarnessWeb,
+  stopHarness,
+  type RunningHarness,
+} from "./harness";
 import { applyLinuxRuntimeFlags } from "./linux-flags";
 import { resolveNodeRuntime } from "./node-runtime";
 import { appIconFile, installUserShortcuts, needsUserShortcuts } from "./desktop-integration";
@@ -419,13 +426,14 @@ async function boot(forceUpdate: boolean): Promise<void> {
     running = null;
     const workspaceDir = await defaultWorkspace();
     const dshHome = path.join(userData(), "dsh-home");
+    let switched: { workspaceId: string; sessionId: string | null } | null = null;
     if (pendingWorkspaceSwitch === workspaceDir) {
-      const switched = await switchWorkspace(dshHome, workspaceDir).catch(() => null);
-      pendingUiSelection = switched && (switched.sessionId ? { sessionId: switched.sessionId } : {});
+      switched = await switchWorkspace(dshHome, workspaceDir).catch(() => null);
     } else {
       await ensureDefaultWorkspace(dshHome, workspaceDir).catch(() => false);
     }
     pendingWorkspaceSwitch = null;
+    pendingUiSelection = null;
     running = await startHarnessWeb({
       runtime,
       install,
@@ -433,6 +441,15 @@ async function boot(forceUpdate: boolean): Promise<void> {
       dshHome,
       onLog: (line) => sendSplash("log", line),
     });
+    if (switched) {
+      const sessionId =
+        switched.sessionId ??
+        (await createHarnessSession(running.url, switched.workspaceId).catch((error: unknown) => {
+          sendSplash("log", `无法在新工作区创建会话：${error instanceof Error ? error.message : String(error)}`);
+          return null;
+        }));
+      pendingUiSelection = sessionId ? { sessionId } : {};
+    }
     buildMenu();
     sendSplash("status", { phase: "start", text: "正在打开 DeepSeek Harness…" });
     if (mainWindow && !mainWindow.isDestroyed()) {
