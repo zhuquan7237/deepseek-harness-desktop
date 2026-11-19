@@ -79,7 +79,8 @@ describe("Open Workspace registry switch", () => {
     await writeFile(path.join(cache, "s-new.json"), projection(1_500, 9_000));
     expect(await switchWorkspace(dshHome, path.join(root, "picked"))).toEqual({ workspaceId: "b", sessionId: "s-new" });
 
-    // Without a cache entry the event log's mtime stands in.
+    // Without a usable cache entry the event log's mtime stands in.
+    await writeFile(path.join(cache, "s-log.json"), "{truncated");
     const logDir = path.join(dshHome, "sessions", "--picked--", "s-log");
     await mkdir(logDir, { recursive: true });
     await writeFile(path.join(logDir, "session.v4.jsonl.zstd"), "");

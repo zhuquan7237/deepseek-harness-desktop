@@ -47,7 +47,7 @@ async function sessionRecency(dshHome: string, sessionIds: string[]): Promise<Re
   await Promise.all(
     sessionIds.map(async (id) => {
       const cached = path.join(dshHome, "storages", "session_projcache", "sessions", `${id}.json`);
-      const fromCache = sessionUpdatedAt(await readFile(cached, "utf8").then(JSON.parse, () => null));
+      const fromCache = sessionUpdatedAt(await readFile(cached, "utf8").then(parseJson, () => null));
       if (fromCache !== undefined) {
         recency[id] = fromCache;
         return;
@@ -63,6 +63,14 @@ async function sessionRecency(dshHome: string, sessionIds: string[]): Promise<Re
     }),
   );
   return recency;
+}
+
+function parseJson(text: string): unknown {
+  try {
+    return JSON.parse(text);
+  } catch {
+    return null;
+  }
 }
 
 async function readRegistry(dshHome: string): Promise<{ file: string; existing: unknown } | undefined> {
